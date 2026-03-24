@@ -15,7 +15,7 @@ HEADERS = {
     'User-Agent': (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
         'AppleWebKit/537.36 (KHTML, like Gecko) '
-        'Chrome/120.0.0.0 Safari/537.36'
+        'Chrome/120.0.0.0 Safari/537.36 ' 
         'Edg/120.0.0.0 OS/10.0.22631'
     )
 }
@@ -57,8 +57,8 @@ def get_status(url: str) -> Tuple[str, str]:
 
         # Some servers return 405 Method Not Allowed for HEAD requests
         if response.status_code == 405:
-            response = session.get(url, timeout=TIMEOUT_SECONDS, allow_redirects=True)
-
+            response = session.get(url, timeout=TIMEOUT_SECONDS, allow_redirects=True, stream=True)
+            response.close()
         return str(response.status_code), url
 
     except requests.exceptions.ConnectionError:
